@@ -67,7 +67,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-def frontendDir = "${rootProject.projectDir.parentFile}/frontend/"
+def frontendDir = "../frontend/"
 
 tasks.register('nodeInstall', Exec) {
     workingDir frontendDir
