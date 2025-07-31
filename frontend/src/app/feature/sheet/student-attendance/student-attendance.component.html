@@ -1,0 +1,126 @@
+<div class="p-3">
+  <h2 class="text-4xl font-extrabold dark:text-white">Adauga fisa prezenta</h2>
+  <p class="mb-4 text-lg text-gray-500">Completeaza formularul pentru a creea o noua fisa de prezenta</p>
+</div>
+
+@if (presenceForm) {
+  <p-card class="flex justify-content-center flex-wrap gap-2 mx-auto" [style]="{width: '50%'}">
+    <form [formGroup]="presenceForm" class="grid grid-nogutter">
+      <div class="col-2 align-content-center">
+        <div class="text-center p-3 border-round-sm font-bold">
+
+        </div>
+      </div>
+      <div class="field col-12">
+        <p-floatlabel variant="on">
+          <p-date-picker inputId="calendar-24h"
+                         [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                         appendTo="body"
+                         [showTime]="true" [hourFormat]="'24'" showIcon
+                         formControlName="classDate"
+                         iconDisplay="input"/>
+          <label for="on_label">Data si ora sedinta</label>
+        </p-floatlabel>
+      </div>
+      <div class="field col-12">
+        <p-floatlabel class="w-full md:w-56" variant="on">
+          <p-select inputId="on_label" [options]="subjects"
+                    optionLabel="name"
+                    formControlName="subject"
+                    appendTo="body"
+                    styleClass="w-full" (onChange)="onChangeSubject($event)"/>
+          <label for="on_label">Materie</label>
+        </p-floatlabel>
+      </div>
+      <p-button [disabled]="!presenceForm.get('subject')?.value" label="Adauga student" (click)="addStudent()"
+                [rounded]="true" severity="info"
+                class="mb-3 col-6" size="small"
+                [pTooltip]="!presenceForm.get('subject')?.value ? 'Trebuie sa selectezi materia ca sa poti adauga studenti' : ''"/>
+      <p-card class="col-12" [style]="{ background: '#F5F5F5' }">
+        @if (studentArray.controls.length === 0) {
+          Nu ati adaugat inca niciun student
+        } @else {
+          <ng-container formArrayName="students">
+            <p-accordion [value]="0">
+              @for (control of studentArray.controls; track control; let idx = $index) {
+                <ng-container [formGroupName]="idx">
+                  <p-accordion-panel [value]="idx">
+                    <p-accordion-header>{{
+                        control.get('student')?.value?.name
+                          ? control.get('student')?.value?.name
+                          : 'Nu s-a ales niciun student inca'
+                      }}
+                    </p-accordion-header>
+                    <p-accordion-content>
+                      <div class="field col-12">
+                        <p-floatlabel class="w-full md:w-56" variant="on">
+                          <p-select appendTo="body" formControlName="student" [options]="students" optionLabel="name"
+                                    class="w-full md:w-56"/>
+                        </p-floatlabel>
+                      </div>
+                      <div class="field col-12">
+                        <p-floatlabel variant="on">
+                          <input pInputText id="input" type="number"
+                                 formControlName="delayMinutes"
+                                 fluid/>
+                          <label for="username">Intarziere (min)</label>
+                        </p-floatlabel>
+                      </div>
+                      <div class="field col-12">
+                        <div class="flex flex-row flex-wrap">
+                          <div
+                            class="flex align-items-center w-10rem  border-round m-2">
+                            <p>Procent tema: {{ control.get('homeworkPercentage')?.value }}%</p></div>
+                          <div
+                            class="flex align-items-center w-10rem  font-bold m-2">
+                            <p-slider [min]="0" [max]="100" [step]="20" formControlName="homeworkPercentage"
+                                      ariaLabel="test"
+                                      class="w-full"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field col-12">
+                        <div class="flex flex-row flex-wrap">
+                          <div
+                            class="flex align-items-center w-10rem  border-round m-2">
+                            <p>Participare activa: {{ control.get('participationPercentage')?.value }}%</p></div>
+                          <div
+                            class="flex align-items-center w-10rem  font-bold m-2">
+                            <p-slider [min]="0" [max]="100" [step]="20" formControlName="participationPercentage"
+                                      ariaLabel="test"
+                                      class="w-full"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field col-12">
+                        <p-floatlabel variant="on">
+                          <textarea [style]="{'width':'100%'}" formControlName="notes" pTextarea
+                                    id="over_label" rows="5"
+                                    cols="30" class="h-full"></textarea>
+                          <label for="on_label">Note</label>
+                        </p-floatlabel>
+                      </div>
+                      <div class="field col-12 flex items-center gap-1">
+                        <p-checkbox formControlName="present" [binary]="true" inputId="ny"/>
+                        <label for="ny" class="ml-2">Prezent</label>
+                      </div>
+
+                    </p-accordion-content>
+                  </p-accordion-panel>
+                </ng-container>
+
+              }
+            </p-accordion>
+
+          </ng-container>
+        }
+      </p-card>
+    </form>
+    <div class="col-offset-9 col-12 mt-5">
+      <p-button class="mr-3" label="Cancel" (click)="visible = false" severity="secondary"/>
+      <p-button label="Salveaza" [disabled]="presenceForm.invalid" (click)="save()" severity="success"/>
+    </div>
+  </p-card>
+}
+
+

@@ -1,0 +1,57 @@
+<div class="grid">
+  <div class="col-4">
+    <div class="p-3">
+      <h2 class="text-4xl font-extrabold dark:text-white">Profesori</h2>
+      <p class="mb-4 text-lg text-gray-500">Gestioneaza profesorii</p>
+    </div>
+  </div>
+  <div class="col-4 col-offset-4">
+    <div class="card flex flex-wrap gap-4 justify-center">
+      <p-button label="Adauga profesor" severity="primary" icon="pi pi-plus" (click)="createProfessor()"/>
+    </div>
+  </div>
+</div>
+
+<p-card header="Lista profesori">
+  <p-table
+    #dt
+    [value]="teachers"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [size]="'large'"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} din {totalRecords}"
+    (onPage)="pageChange($event)"
+    [exportHeader]="'customExportHeader'"
+  >
+    <ng-template #header>
+      <tr>
+        <th>Nume</th>
+        <th >Email</th>
+        <th >Numar telefon</th>
+        <th >Username</th>
+        <th >Actiuni</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-teacher>
+      <tr>
+        <td>{{ teacher.name }}</td>
+        <td>{{ teacher.email }}</td>
+        <td>{{ teacher.phoneNumber }}</td>
+        <td>{{ teacher.username }}</td>
+        <td>
+          <div class="flex flex-row flex-wrap">
+            <p-button icon="pi pi-pencil" [pTooltip]="'Editeaza profesorul'" (click)="editTeacher(teacher.id)" [rounded]="true" [text]="true"/>
+            <p-button icon="pi pi-trash" [pTooltip]="'Sterge profesorul'" (click)="deleteTeacher(teacher.id)" [rounded]="true" [text]="true"/>
+            <p-button icon="pi pi-eye" [pTooltip]="'Vizualizeaza fise'" (click)="viewSheet(teacher.id)" [rounded]="true" [text]="true"/>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<app-teacher-creation #teacherCreationComponent (saveEmitter)="onTeacherSave()" ></app-teacher-creation>
+

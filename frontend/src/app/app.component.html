@@ -1,0 +1,28 @@
+@if (authService.getAuthToken()) {
+  <p-toolbar>
+    <ng-template #start>
+      <i class="pi pi-graduation-cap" style="font-size: 2rem"></i>
+      <p class="ml-4">Tutoring tracker</p>
+    </ng-template>
+    <ng-template #end>
+
+      @if (authService.getUserRole() === 'ADMIN') {
+        <p-button label="Studenti" routerLink="/students" text plain/>
+        <p-button label="Profesori" routerLink="/teachers" text plain/>
+        <p-button label="Fise prezenta studenti" routerLink="/sheets" text plain/>
+        <p-button label="Setari" routerLink="/settings" text plain/>
+      } @else if (authService.getUserRole() === 'PROFESSOR') {
+        <p-button label="Fise prezenta" routerLink="/sheets" text plain/>
+      }
+
+    </ng-template>
+  </p-toolbar>
+
+  <app-breadcrumb></app-breadcrumb>
+
+}
+
+<p-confirmDialog></p-confirmDialog>
+<div style="height: 100%; margin-right: 100px;margin-left: 100px; margin-top: 20px">
+  <router-outlet></router-outlet>
+</div>

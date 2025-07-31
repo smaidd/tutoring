@@ -1,0 +1,33 @@
+<div class="grid">
+  <div class="col-4">
+    <div class="p-3">
+      <h2 class="text-4xl font-extrabold dark:text-white">Setari</h2>
+      <p class="mb-4 text-lg text-gray-500">Din aceasta pagina poti configura setarile aplicatiei</p>
+    </div>
+  </div>
+</div>
+<p-tabs value="0" (valueChange)="changeTab($event)">
+  <p-tablist>
+    <p-tab value="0">Pachete</p-tab>
+    <p-tab value="1">Materii</p-tab>
+    <p-tab value="2">Remuneratie</p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      @if (tabIndex == 0) {
+        <app-packs></app-packs>
+      }
+
+    </p-tabpanel>
+    <p-tabpanel value="1">
+      @if (tabIndex == 1) {
+        <app-subject></app-subject>
+      }
+    </p-tabpanel>
+    <p-tabpanel value="2">
+      @if (tabIndex == 2) {
+        <app-remuneration></app-remuneration>
+      }
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

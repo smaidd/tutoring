@@ -1,0 +1,75 @@
+<div class="grid">
+  <div class="col-4">
+    <div class="p-3">
+      <h2 class="text-4xl font-extrabold dark:text-white">Fisa profesor</h2>
+      <p class="mb-4 text-lg text-gray-500">Profesor: {{ teacher?.name }}</p>
+    </div>
+  </div>
+  <div class="col-4 col-offset-4">
+    <div class="grid">
+      <div class="col-4">
+        <p-floatlabel>
+          <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" size="large" [readonlyInput]="true"
+                        inputId="over_label"/>
+          <label for="over_label">Perioada</label>
+        </p-floatlabel>
+      </div>
+      <div class="col-4">
+        <p-button label="Cauta" severity="primary" icon="pi pi-eye" (click)="searchSheet()"/>
+      </div>
+    </div>
+  </div>
+</div>
+@if (rangeDates && teacherSessions) {
+  <div class="grid flex justify-content-center flex-wrap mb-4">
+    <div class="col-4">
+      <p-card>
+        <p class="text-lg text-gray-500">Numar sedinte perioada</p>
+        <h2 class="text-4xl font-extrabold dark:text-white">{{ totalNumberOfSessions }}</h2>
+      </p-card>
+    </div>
+    <div class="col-4">
+      <p-card>
+        <p class="text-lg text-gray-500">Remuneratie perioada</p>
+        <h2 class="text-4xl font-extrabold dark:text-white">{{ totalRemuneration }} LEI</h2>
+      </p-card>
+    </div>
+  </div>
+  <p-card header="Lista meditatii">
+    <p-table
+      #dt
+      [value]="teacherSessions"
+      [paginator]="true"
+      [rows]="10"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [size]="'large'"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="{first} din {totalRecords}"
+      [exportHeader]="'customExportHeader'"
+    >
+
+      <ng-template #header>
+        <tr>
+          <th>Data si ora</th>
+          <th>Remuneratie</th>
+          <th>Materie</th>
+          <th>Numar studenti</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-session>
+        <tr>
+          <td>{{ session.classDate }}</td>
+          <td>{{ session.remuneration }} LEI</td>
+          <td>{{ session.subject.name }}</td>
+          <td>{{ session.students?.length }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+}
+
+@if (!rangeDates) {
+  <p class="text-2xl text-red-600 dark:text-gray-400">Alege perioada de raportare inainte sa afisezi fisa
+    profesorului</p>
+}

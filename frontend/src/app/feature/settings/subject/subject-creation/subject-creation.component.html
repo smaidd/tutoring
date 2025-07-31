@@ -1,0 +1,17 @@
+<div class="card flex justify-center">
+  @if (subjectForm) {
+    <form [formGroup]="subjectForm">
+      <p-dialog header="Adauga profesor" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+        <div class="field">
+          <label for="name">Nume materie</label>
+          <input id="name" type="text" formControlName="name"
+                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+        <div class="col-offset-6 col-12">
+          <p-button class="mr-3" label="Cancel" (click)="visible = false" severity="secondary"/>
+          <p-button label="Salveaza" (click)="saveSubject()" severity="success"/>
+        </div>
+      </p-dialog>
+    </form>
+  }
+</div>

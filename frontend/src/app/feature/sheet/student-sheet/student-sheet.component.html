@@ -1,0 +1,110 @@
+<div class="grid">
+  <div class="col-4">
+    <div class="p-3">
+      <h2 class="text-4xl font-extrabold dark:text-white">Fisa elev</h2>
+      <p class="mb-4 text-lg text-gray-500">Student: {{ student?.name }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-3">
+    <p-card>
+      <p class="text-lg text-gray-500">Numar sedinte</p>
+      <h2 class="text-4xl font-extrabold dark:text-white">{{ studentSheetStatistics?.totalNumberOfSessions }}</h2>
+    </p-card>
+  </div>
+  <div class="col-3">
+    <p-card>
+      <p class="text-lg text-gray-500">Prezenta</p>
+      <h2 class="text-4xl font-extrabold dark:text-white">{{ studentSheetStatistics?.presencePercentage }}%</h2>
+    </p-card>
+  </div>
+  <div class="col-3">
+    <p-card>
+      <p class="text-lg text-gray-500">Participare activa</p>
+      <h2 class="text-4xl font-extrabold dark:text-white">{{ studentSheetStatistics?.medianActiveParticipation }}%</h2>
+    </p-card>
+  </div>
+  <div class="col-3">
+    <p-card>
+      <p class="text-lg text-gray-500">Teme completate</p>
+      <h2 class="text-4xl font-extrabold dark:text-white">{{ studentSheetStatistics?.medianHomework }}%</h2>
+    </p-card>
+  </div>
+</div>
+
+@if (studentSheet) {
+  <p-card header="Lista prezente">
+    <p-table
+      #dt
+      [value]="studentSheet!.presence"
+      [paginator]="true"
+      [rows]="10"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [size]="'large'"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="{first} din {totalRecords}"
+      [exportHeader]="'customExportHeader'"
+    >
+      <ng-template #header>
+        <tr>
+          <th>Data si ora</th>
+          <th>Profesor</th>
+          <th>Topic</th>
+          <th>Prezenta</th>
+          <th>Participare</th>
+          <th>Tema</th>
+          <th>Actiuni</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-presence>
+        <tr>
+          <td>{{ presence.classDate }}</td>
+          <td>{{ presence?.professor?.name ?? 'Administrator' }}</td>
+          <td>{{ presence.subject.name }}</td>
+          <td>
+            @if (presence.present) {
+              <p-tag icon="pi pi-check" severity="success" value="Prezent"/>
+            } @else {
+              <p-tag icon="pi pi-exclamation-triangle" severity="warn" value="Absent"/>
+            }
+
+          </td>
+          <td>
+            @if (!presence.present) {
+              Absent
+            } @else {
+              <p-progressbar [style]="{ width: '75%' }" [value]="presence.participationPercentage"></p-progressbar>
+            }
+          </td>
+          <td>
+            @if (!presence.present) {
+              Absent
+            } @else {
+              @if (presence.homeworkPercentage < 50) {
+                <p-tag icon="pi pi-exclamation-triangle" severity="warn" value="{{presence.homeworkPercentage}}%"/>
+              } @else if (presence.homeworkPercentage > 50 && presence.homeworkPercentage < 80) {
+                <p-tag icon="pi pi-exclamation-circle" value="{{presence.homeworkPercentage}}%"/>
+              } @else {
+                <p-tag icon="pi pi-check" severity="success" value="{{presence.homeworkPercentage}}%"/>
+              }
+            }
+          </td>
+          <td>
+            <p-button icon="pi pi-eye" [pTooltip]="'Vizualizeaza notitele'"
+                      (click)="showAttendanceNotes(presence.notes)" [rounded]="true" [text]="true"/>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+}
+
+
+<p-dialog header="Notite prezenta" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+  <span>
+    {{ note }}
+  </span>
+</p-dialog>

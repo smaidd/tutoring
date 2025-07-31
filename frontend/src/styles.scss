@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+@import 'ngx-toastr/toastr';
+
+:root {
+  --surface-ground: #27272a;    /* Dark background: zinc-800-ish */
+  --surface-card: #3f3f46;      /* Slightly lighter: zinc-700-ish */
+  --surface-overlay: #52525b;   /* Dialogs, menus: zinc-600-ish */
+  --surface-border: #71717a;    /* Borders: zinc-500-ish */
+  --text-color: #e4e4e7;        /* zinc-200 */
+  --text-color-secondary: #a1a1aa;  /* zinc-400 */
+}

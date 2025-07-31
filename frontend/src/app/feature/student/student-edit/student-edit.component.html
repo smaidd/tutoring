@@ -1,0 +1,123 @@
+<div class="p-3">
+  <h2 class="text-4xl font-extrabold dark:text-white">Editare elev</h2>
+  <p class="mb-4 text-lg text-gray-500">Editeaza datele elevului</p>
+</div>
+
+@if (student) {
+  <p-card class="flex flex-column gap-2 mx-auto">
+    <div class="grid">
+      <div class="col-5">
+        <p class="mb-5 my-4 text-lg text-gray-500">Date personale</p>
+        <div class="grid">
+          <div class="field col-6">
+            <p-floatlabel variant="on">
+              <input pInputText id="in_label" [(ngModel)]="student.name" autocomplete="off" class="w-full"/>
+              <label for="in_label">Nume</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-6">
+            <p-floatlabel variant="on">
+              <input pInputText id="in_label" [(ngModel)]="student.phoneNumber" autocomplete="off" class="w-full"/>
+              <label for="in_label">Numar de telefon</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-6">
+            <p-floatlabel variant="on">
+              <input pInputText id="in_label" [(ngModel)]="student.studentClass" autocomplete="off" class="w-full"/>
+              <label for="in_label">Clasa</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-6">
+            <p-floatlabel variant="on">
+              <input pInputText id="in_label" [(ngModel)]="student.profile" autocomplete="off" class="w-full"/>
+              <label for="in_label">Profil</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-6">
+            <p-floatlabel variant="on">
+              <p-multiselect [options]="subjects" optionLabel="name" [(ngModel)]="student.subjects" [maxSelectedLabels]="3" styleClass="w-full md:w-80" />
+              <label for="on_label">Materie</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-6">
+            <p-floatlabel variant="on">
+              <p-date-picker [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                             [ngModel]="student.dateOfBirth | isoToDate"
+                             (ngModelChange)="student!.dateOfBirth=$event" inputId="on_label" showIcon
+                             iconDisplay="input"></p-date-picker>
+              <label for="on_label">Data nasterii</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-8 col-offset-2">
+            <p-floatlabel variant="on">
+                  <textarea [style]="{'width':'100%'}" pTextarea id="over_label" [(ngModel)]="student.observations"
+                            rows="5"
+                            cols="30" class="h-full"></textarea>
+              <label for="on_label">Observatii</label>
+            </p-floatlabel>
+          </div>
+        </div>
+      </div>
+      <p-divider layout="vertical"/>
+      <div class="col-5">
+        <p class="mb-5 my-4 text-lg text-gray-500">Date parinte</p>
+        <div class="grid">
+          <div class="field col-4">
+            <p-floatlabel variant="on">
+              <input pInputText id="in_label" [(ngModel)]="student.parentName" autocomplete="off" class="w-full"/>
+              <label for="in_label">Nume parinte</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-4">
+            <p-floatlabel variant="on">
+              <input pInputText id="in_label" [(ngModel)]="student.parentPhoneNumber" autocomplete="off"
+                     class="w-full"/>
+              <label for="in_label">Telefon parinte</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-4">
+            <p-floatlabel variant="on">
+              <input pInputText id="in_label" [(ngModel)]="student.parentEmail" autocomplete="off" class="w-full"/>
+              <label for="in_label">Email parinte</label>
+            </p-floatlabel>
+          </div>
+        </div>
+        <p-divider/>
+        <p class="mb-5 my-4 text-lg text-gray-500">Date financiare</p>
+        <div class="grid">
+          <div class="col-6">
+            <p-floatlabel class="w-full md:w-56" variant="on">
+              <p-select [(ngModel)]="student.pack" inputId="on_label" [options]="packs"
+                        optionLabel="name"
+                        styleClass="w-full"/>
+              <label for="on_label">Pachet</label>
+            </p-floatlabel>
+          </div>
+          <div class="field col-6">
+            <p-floatlabel variant="on">
+              <p-date-picker [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                             [ngModel]="student.firstAppointment | isoToDate"
+                             (ngModelChange)="student!.firstAppointment=$event" inputId="on_label" showIcon
+                             iconDisplay="input"></p-date-picker>
+              <label for="on_label">Prima sedinta</label>
+            </p-floatlabel>
+          </div>
+          <div class="col-6 col-offset-4">
+            <p-checkbox [(ngModel)]="student.contacted" [binary]="true" inputId="contancted"/>
+            <label for="contancted" class="ml-2">Contactat</label>
+
+            <p-checkbox class="ml-3" [(ngModel)]="student.confirmed" [binary]="true" inputId="confirmed"/>
+            <label for="confirmed" class="ml-2">Confirmat</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="relative">
+      <div class="absolute bottom-0 right-0 flex align-items-center justify-content-center">
+        <p-button (click)="cancel()" class="mr-5" label="Renunta" [raised]="true" severity="secondary"/>
+        <p-button (click)="confirm($event)" label="Updateaza datele" [raised]="true" severity="success"/>
+      </div>
+    </div>
+  </p-card>
+}
+

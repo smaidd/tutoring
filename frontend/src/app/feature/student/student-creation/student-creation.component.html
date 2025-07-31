@@ -1,0 +1,237 @@
+<div class="p-3">
+  <h2 class="text-4xl font-extrabold dark:text-white">Adauga elev</h2>
+  <p class="mb-4 text-lg text-gray-500">Completeaza formularul pentru a creea un nou student</p>
+</div>
+
+<p-stepper [(value)]="activeStep" class="basis-[40rem]">
+  <p-step-list>
+    <p-step [value]="1" class="flex flex-row flex-auto gap-2">
+      <ng-template #content let-activateCallback="activateCallback" let-value="value">
+        <p-button icon="pi pi-user" [rounded]="true">
+
+        </p-button>
+        Detalii elev
+      </ng-template>
+    </p-step>
+
+    <p-step [value]="2" class="flex flex-row flex-auto gap-2">
+      <ng-template #content let-activateCallback="activateCallback" let-value="value">
+        <p-button icon="pi pi-user" [rounded]="true">
+
+        </p-button>
+        Detalii parinte
+      </ng-template>
+    </p-step>
+
+    <p-step [value]="3" class="flex flex-row flex-auto gap-2">
+      <ng-template #content let-activateCallback="activateCallback" let-value="value">
+        <p-button icon="pi pi-wallet" [rounded]="true">
+
+        </p-button>
+        Detalii financiare
+      </ng-template>
+    </p-step>
+  </p-step-list>
+
+  <p-step-panels>
+    <p-step-panel [value]="1">
+      <ng-template #content let-activateCallback="activateCallback">
+        <div class="flex flex-column gap-2 mx-auto" style="min-height: 16rem; max-width: 80rem">
+          <div class="flex flex-row flex-wrap mb-3">
+            <div class="flex align-items-center justify-content-center">
+              <i class="pi pi-user"></i>
+            </div>
+            <div class="ml-3 flex align-items-center justify-content-center">
+              <h2 class="text-2xl font-extrabold dark:text-white">Informatii personale</h2>
+            </div>
+          </div>
+          <form [formGroup]="studentForm">
+            <div class="grid">
+              <div class="field col-5">
+                <p-floatlabel variant="on">
+                  <label for="username">Nume elev</label>
+                  <input formControlName="name" pInputText id="input" type="text" fluid/>
+                </p-floatlabel>
+                @if (name?.invalid && name?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Numele este oblogatoriu</p-message>
+                }
+              </div>
+              <div class="field col-5">
+                <p-floatlabel variant="on">
+                  <input formControlName="phoneNumber" pInputText id="input" type="text"
+                         fluid/>
+                  <label for="username">Numar de telefon</label>
+                </p-floatlabel>
+                @if (phoneNumber?.invalid && phoneNumber?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Numar de telefon este oblogatoriu
+                  </p-message>
+                }
+              </div>
+              <div class="field col-5">
+                <p-floatlabel variant="on">
+                  <p-date-picker [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                 formControlName="dateOfBirth" inputId="on_label" showIcon
+                                 iconDisplay="input"></p-date-picker>
+                  <label for="on_label">Data nasterii</label>
+                </p-floatlabel>
+                @if (dateOfBirth?.invalid && dateOfBirth?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Data nasterii este obligatorie</p-message>
+                }
+              </div>
+              <div class="field col-5">
+                <p-floatlabel variant="on">
+                  <input formControlName="profile" pInputText id="input" type="text"
+                         fluid/>
+                  <label for="username">Profil</label>
+                </p-floatlabel>
+                @if (profile?.invalid && profile?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Profilul este oblogatoriu</p-message>
+                }
+              </div>
+              <div class="field col-5">
+                <p-floatlabel variant="on">
+                  <input formControlName="studentClass" pInputText id="input" type="text"
+                         fluid/>
+                  <label for="username">Clasa</label>
+                </p-floatlabel>
+                @if (studentClass?.invalid && studentClass?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Clasa este oblogatorie</p-message>
+                }
+              </div>
+              <div class="field col-5">
+                <p-floatlabel class="w-full md:w-56" variant="on">
+                  <p-multiselect [options]="subjects" optionLabel="name" formControlName="subjects" [maxSelectedLabels]="3" styleClass="w-full md:w-80" />
+                  <label for="on_label">Materie</label>
+                </p-floatlabel>
+                @if (subject?.invalid && subject?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Materia este oblogatorie</p-message>
+                }
+              </div>
+              <div class="field col-10">
+                <p-floatlabel variant="on">
+                  <textarea [style]="{'width':'100%'}" pTextarea id="over_label" formControlName="observations" rows="5"
+                            cols="30" class="h-full"></textarea>
+                  <label for="on_label">Observatii</label>
+                </p-floatlabel>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="flex pt-6 justify-end">
+          <p-button [disabled]="studentForm.invalid"
+                    [pTooltip]="studentForm?.invalid ? 'Trebuie sa completezi campurile obligatorii inainte de a merge la pasul urmator' : ''"
+                    (onClick)="activateCallback(2)" label="Next"
+                    icon="pi pi-arrow-right" iconPos="right"/>
+        </div>
+      </ng-template>
+    </p-step-panel>
+
+    <p-step-panel [value]="2">
+      <ng-template #content let-activateCallback="activateCallback">
+        <div class="flex flex-column gap-2 mx-auto" style="min-height: 16rem; max-width: 80rem">
+          <div class="flex flex-row flex-wrap mb-3">
+            <div class="flex align-items-center justify-content-center">
+              <i class="pi pi-user"></i>
+            </div>
+            <div class="ml-3 flex align-items-center justify-content-center">
+              <h2 class="text-2xl font-extrabold dark:text-white">Informatii parinte</h2>
+            </div>
+          </div>
+          <form [formGroup]="parentForm">
+            <div class="grid">
+              <div class="field col-4">
+                <p-floatlabel variant="on">
+                  <label for="username">Nume parinte</label>
+                  <input formControlName="parentName" pInputText id="input" type="text" fluid/>
+                </p-floatlabel>
+                @if (parentName?.invalid && parentName?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Numele este oblogatoriu</p-message>
+                }
+              </div>
+              <div class="field col-4">
+                <p-floatlabel variant="on">
+                  <label for="username">Numar telefon</label>
+                  <input formControlName="parentPhoneNumber" pInputText id="input" type="text" fluid/>
+                </p-floatlabel>
+                @if (parentPhoneNumber?.invalid && parentPhoneNumber?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Numar de telefon este oblogatoriu
+                  </p-message>
+                }
+              </div>
+              <div class="field col-4">
+                <p-floatlabel variant="on">
+                  <label for="username">Email parinte</label>
+                  <input formControlName="parentEmail" pInputText id="input" type="text" fluid/>
+                </p-floatlabel>
+                @if (parentEmail?.invalid && parentEmail?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Emailul este oblogatoriu</p-message>
+                }
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="flex pt-6 justify-between">
+          <p-button (onClick)="activateCallback(1)" label="Back" severity="secondary" icon="pi pi-arrow-left"/>
+          <p-button [disabled]="parentForm.invalid"
+                    [pTooltip]="parentForm?.invalid ? 'Trebuie sa completezi campurile obligatorii inainte de a merge la pasul urmator' : ''"
+                    (onClick)="activateCallback(3)" label="Next"
+                    icon="pi pi-arrow-right" iconPos="right" class="ml-2"/>
+        </div>
+      </ng-template>
+    </p-step-panel>
+
+    <p-step-panel [value]="3">
+      <ng-template #content let-activateCallback="activateCallback">
+        <div class="flex flex-column gap-2 mx-auto" style="min-height: 16rem; max-width: 80rem">
+          <div class="flex flex-row flex-wrap mb-3">
+            <div class="flex align-items-center justify-content-center">
+              <i class="pi pi-wallet"></i>
+            </div>
+            <div class="ml-3 flex align-items-center justify-content-center">
+              <h2 class="text-2xl font-extrabold dark:text-white">Detalii financiare</h2>
+            </div>
+          </div>
+          <form [formGroup]="financialForm">
+            <div class="grid">
+              <div class="field col-5">
+                <p-floatlabel class="w-full md:w-56" variant="on">
+                  <p-select formControlName="pack" inputId="on_label" [options]="packs" optionLabel="name"
+                            styleClass="w-full"/>
+                  <label for="on_label">Pachet</label>
+                </p-floatlabel>
+                @if (pack?.invalid && pack?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Pachetul este oblogatorie</p-message>
+                }
+              </div>
+              <div class="field col-5">
+                <p-floatlabel variant="on">
+                  <p-date-picker [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                 formControlName="firstAppointment" inputId="on_label" showIcon
+                                 iconDisplay="input"></p-date-picker>
+                  <label for="on_label">Prima sedinta</label>
+                </p-floatlabel>
+                @if (firstAppointment?.invalid && firstAppointment?.dirty) {
+                  <p-message severity="error" variant="simple" size="small">Data sedintei este obligatorie</p-message>
+                }
+              </div>
+              <div class="field col-5 flex items-center align-content-center gap-1">
+                <p-checkbox formControlName="contacted" [binary]="true" inputId="contancted"/>
+                <label for="contancted" class="ml-2">Contactat</label>
+
+                <p-checkbox formControlName="confirmed" [binary]="true" inputId="confirmed"/>
+                <label for="confirmed" class="ml-2">Confirmat</label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="flex pt-6 justify-start">
+          <p-button (onClick)="activateCallback(2)" label="Back" severity="secondary" icon="pi pi-arrow-left"/>
+          <p-button (onClick)="saveStudent()"
+                    class="ml-3"
+                    [disabled]="studentForm.invalid || parentForm.invalid || financialForm.invalid" label="Salveaza"
+                    severity="success" icon="pi pi-save" iconPos="right"/>
+        </div>
+      </ng-template>
+    </p-step-panel>
+  </p-step-panels>
+</p-stepper>

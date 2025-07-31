@@ -1,0 +1,46 @@
+<div class="col-4 col-offset-10">
+  <div class="card flex flex-wrap gap-4 justify-center">
+    <p-button label="Adauga pachet" severity="primary" icon="pi pi-plus" (click)="addNewPack()"/>
+  </div>
+</div>
+<p-card header="Lista pachete">
+  @if (packs) {
+    <p-table
+      #dt
+      [value]="packs"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [size]="'large'"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="{first} din {totalRecords}"
+      [exportHeader]="'customExportHeader'"
+    >
+      <ng-template #header>
+        <tr>
+          <th>Nume</th>
+          <th>Numar sedinte</th>
+          <th>Pret per sedinta</th>
+          <th>Actiuni</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-pack>
+        <tr>
+          <td>{{ pack.name }}</td>
+          <td>{{ pack.numberOfSessions }}</td>
+          <td>{{ pack.price }}</td>
+          <td>
+            <div class="flex flex-row flex-wrap">
+              <!--            <p-button icon="pi pi-eye" [pTooltip]="'Vizualizeaza sedintele'" (click)="showStudentSheet(student?.id)" [rounded]="true" [text]="true"/>-->
+              <p-button icon="pi pi-pencil" [pTooltip]="'Editeaza pachetul'" (click)="editPack(pack)" [rounded]="true" [text]="true"/>
+              <p-button icon="pi pi-trash" [pTooltip]="'Sterge pachetul'" (click)="removePack(pack.id, $event)" [rounded]="true" [text]="true"/>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</p-card>
+
+<app-pack-creation #packCreationComponent (saveEmitter)="onSavePack()"></app-pack-creation>

@@ -1,0 +1,53 @@
+<div class="grid">
+  <div class="col-4">
+    <div class="p-3">
+      <h2 class="text-4xl font-extrabold dark:text-white">Fise studenti</h2>
+      <p class="mb-4 text-lg text-gray-500">Aici poti vizualiza fisele studentilor si adauga noi fise de prezenta</p>
+    </div>
+  </div>
+  <div class="col-4 col-offset-4">
+    <div class="card flex flex-wrap gap-4 justify-center">
+      <p-button label="Adauga fisa de prezenta" severity="primary" icon="pi pi-plus" (click)="createPresents()"/>
+    </div>
+  </div>
+</div>
+
+<p-card header="Lista fise studenti">
+  <p-table
+    #dt
+    [value]="sheets"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [size]="'large'"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} din {totalRecords}"
+    (onPage)="pageChange($event)"
+  >
+    <ng-template #header>
+      <tr>
+        <th>Nume student</th>
+        <th>Numar fise prezenta</th>
+        <th>Actiuni</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-sheet>
+      <tr>
+        <td>{{ sheet.student.name }}</td>
+        <td>{{ sheet.presence.length }}</td>
+        <td>
+          <div class="flex flex-row flex-wrap">
+            <p-button icon="pi pi-eye" [pTooltip]="'Vizualizeaza sedintele'"
+                      (click)="showStudentSheet(sheet?.student?.id)"
+                      [rounded]="true" [text]="true"/>
+            <!--            <p-button icon="pi pi-pencil" [pTooltip]="'Editeaza studentul'" (click)="editStudent(student.id)"-->
+            <!--                      [rounded]="true" [text]="true"/>-->
+            <!--            <p-button icon="pi pi-trash" [pTooltip]="'Sterge studentul'" (click)="removeStudent(student.id)"-->
+            <!--                      [rounded]="true" [text]="true"/>-->
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
